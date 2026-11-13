@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Quorum Chamber</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header>
+      <div>
+        <a href="/">Quorum Chamber</a>
+        <p>A single choice, across uncertain messages.</p>
+      </div>
+      <div>
+        <button id="open">Open scenario</button
+        ><button id="save">Save scenario</button
+        ><input id="file" type="file" accept=".json" hidden />
+      </div>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">SINGLE-DECREE PAXOS</p>
+          <h1>A choice that survives<br />another proposal.</h1>
+        </div>
+        <p>
+          Deliver messages in your own order. Inspect promises, quorum overlap,
+          and the difference between a value being chosen and a proposer
+          learning it.
+        </p>
+      </section>
+      <div class="toolbar">
+        <label
+          >Acceptors<select id="count">
+            <option>3</option>
+            <option>5</option>
+          </select></label
+        ><button id="example">Adoption example</button
+        ><button id="empty">Empty scenario</button
+        ><button id="undo" disabled>Undo branch</button
+        ><button id="evidence" disabled>Export evidence</button>
+      </div>
+      <p id="message" role="status"></p>
+      <div class="playback">
+        <button id="back" aria-label="Previous event">←</button
+        ><button id="next" aria-label="Next event">→</button
+        ><label
+          >Inspect event<input
+            id="step"
+            type="range"
+            min="0"
+            max="18"
+            value="18" /></label
+        ><span id="position"></span>
+      </div>
+      <p id="event" class="event"></p>
+      <section class="consensus">
+        <div>
+          <p class="eyebrow">OBSERVER'S QUORUM EVIDENCE</p>
+          <h2 id="chosen">No value chosen</h2>
+          <p id="witness"></p>
+        </div>
+        <div>
+          <p class="eyebrow">PROPOSER KNOWLEDGE</p>
+          <div id="proposers"></div>
+        </div>
+      </section>
+      <section>
+        <div class="section-title">
+          <h2>Acceptor state</h2>
+          <p>Promise and accepted value survive a simulated restart.</p>
+        </div>
+        <div id="acceptors" class="acceptors"></div>
+      </section>
+      <div class="workspace">
+        <section class="proposal">
+          <p class="eyebrow">START A NEW BALLOT</p>
+          <form id="propose">
+            <label
+              >Proposer<select id="proposer">
+                <option>P</option>
+                <option>Q</option>
+              </select></label
+            ><label
+              >Requested value<input
+                id="value"
+                value="indigo"
+                maxlength="40"
+                required /></label
+            ><button>Propose value</button>
+          </form>
+          <p class="hint">
+            An attempt gets a unique increasing ballot number. It may need to
+            adopt a different value. Appending at an earlier event branches the
+            scenario and discards its later actions; Undo restores them.
+          </p>
+        </section>
+        <section class="mailbox">
+          <div class="section-title">
+            <h2>Pending messages <span id="pending"></span></h2>
+            <button id="deliver-next">Deliver oldest</button>
+          </div>
+          <div id="messages"></div>
+          <p class="hint">
+            Deliver sends one queued message and may enqueue replies. Drop loses
+            it. Duplicate creates another copy with a fresh queue ID. Delivering
+            to an offline acceptor loses that message.
+          </p>
+        </section>
+      </div>
+      <details>
+        <summary>Ballot records and selected promise quorums</summary>
+        <div id="ballots"></div>
+      </details>
+      <details>
+        <summary>Scenario JSON</summary>
+        <label
+          >Scenario<textarea
+            id="editor"
+            rows="12"
+            spellcheck="false"
+          ></textarea></label
+        ><button id="apply">Apply scenario</button>
+      </details>
+      <details>
+        <summary>Model boundaries</summary>
+        <p>
+          This is single-decree Paxos with two proposers and three or five
+          acceptors. A value is chosen when a majority has accepted the same
+          ballot/value. The observer derives this from the complete simulated
+          vote history; a proposer learns it only after receiving a majority of
+          acceptance acknowledgments.
+        </p>
+        <p>
+          Promises and accepted records are persistent only within the
+          simulation. There is no disk database, actual network, proposer crash
+          recovery, automatic retry, timeout, leader election, membership
+          change, or replicated command log. The simulator supplies unique
+          increasing ballot numbers; a real implementation needs a distributed
+          uniqueness scheme. Restarting an acceptor never erases its promise or
+          accepted record.
+        </p>
+        <p>
+          Safety is checked after every transition. Progress is not guaranteed
+          under message loss, unavailable majorities, or competing attempts.
+          Limits: 160 actions and 60 pending messages. Deliberately invalid
+          actions are rejected atomically.
+        </p>
+      </details>
+    </main>
+    <footer>Majorities overlap. The history matters.</footer>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+{
+  "acceptors": 3,
+  "actions": [
+    {
+      "op": "propose",
+      "proposer": "P",
+      "value": "amber"
+    },
+    {
+      "op": "deliver",
+      "id": 1
+    },
+    {
+      "op": "deliver",
+      "id": 2
+    },
+    {
+      "op": "deliver",
+      "id": 4
+    },
+    {
+      "op": "deliver",
+      "id": 5
+    },
+    {
+      "op": "deliver",
+      "id": 6
+    },
+    {
+      "op": "deliver",
+      "id": 7
+    },
+    {
+      "op": "deliver",
+      "id": 9
+    },
+    {
+      "op": "deliver",
+      "id": 10
+    },
+    {
+      "op": "propose",
+      "proposer": "Q",
+      "value": "indigo"
+    },
+    {
+      "op": "deliver",
+      "id": 12
+    },
+    {
+      "op": "deliver",
+      "id": 13
+    },
+    {
+      "op": "deliver",
+      "id": 14
+    },
+    {
+      "op": "deliver",
+      "id": 15
+    },
+    {
+      "op": "deliver",
+      "id": 17
+    },
+    {
+      "op": "deliver",
+      "id": 18
+    },
+    {
+      "op": "deliver",
+      "id": 19
+    },
+    {
+      "op": "deliver",
+      "id": 20
+    }
+  ]
+}
