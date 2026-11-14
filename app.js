@@ -44,8 +44,10 @@ function append(action) {
     message(error.message, true);
   }
 }
+let priorCards = new Map();
 function render() {
   if (!ready) return;
+  const focusedAcceptor = document.activeElement?.dataset.acceptor;
   const s = result.snapshots[step],
     majority = Math.floor(model.acceptors / 2) + 1;
   $("step").max = model.actions.length;
@@ -58,6 +60,17 @@ function render() {
   $("event").textContent =
     s.events.at(-1)?.note ||
     "Initial state: no promises, accepted values, or messages.";
+  $("quorum-seats").replaceChildren(
+    ...s.acceptors.map((a) => {
+      const seat = el("span", a.id);
+      const witness = s.chosen.some((c) => c.acceptors.includes(a.id));
+      seat.className = witness ? "seat witnessed" : "seat";
+      seat.title = witness
+        ? "Recorded in a historical chosen quorum"
+        : "Not recorded in a chosen quorum";
+      return seat;
+    }),
+  );
   $("chosen").textContent = s.chosen.length
     ? s.chosen[0].value
     : "No value chosen";
@@ -83,7 +96,14 @@ function render() {
   $("acceptors").replaceChildren(
     ...s.acceptors.map((a) => {
       const card = el("div", "");
-      card.className = "acceptor" + (a.online ? "" : " offline");
+      const signature = JSON.stringify(a);
+      card.className =
+        "acceptor" +
+        (a.online ? "" : " offline") +
+        (a.accepted ? " accepted" : "") +
+        (priorCards.get(a.id) !== signature ? " changed" : "");
+      priorCards.set(a.id, signature);
+      card.append(el("span", "ACCEPTOR / " + a.id));
       card.append(
         el("h3", a.id + " · " + (a.online ? "online" : "offline")),
         el("p", "Promised ballot: " + a.promised),
@@ -96,18 +116,24 @@ function render() {
         ),
       );
       const b = el("button", a.online ? "Crash" : "Restart");
+      b.dataset.acceptor = a.id;
       b.onclick = () =>
         append({ op: a.online ? "crash" : "restart", acceptor: a.id });
       card.append(b);
       return card;
     }),
   );
+  if (focusedAcceptor)
+    document
+      .querySelector(`[data-acceptor="${focusedAcceptor}"]`)
+      ?.focus({ preventScroll: true });
   $("pending").textContent = `(${s.messages.length})`;
   $("deliver-next").disabled = !s.messages.length || step >= 160;
   $("messages").replaceChildren(
     ...s.messages.map((m) => {
       const card = el("div", "");
       card.className = "mail";
+      card.dataset.type = m.type;
       const summary = el(
           "code",
           `#${m.id} ${m.type} · ${m.from} → ${m.to}\nballot ${m.ballot}${m.value !== undefined ? " / " + m.value : ""}${m.accepted ? " / prior " + m.accepted.ballot + ":" + m.accepted.value : ""}${m.promised !== undefined ? " / promised " + m.promised : ""}`,

@@ -11,7 +11,7 @@
     <header>
       <div>
         <a href="/">Quorum Chamber</a>
-        <p>A single choice, across uncertain messages.</p>
+        <p>Single-decree Paxos</p>
       </div>
       <div>
         <button id="open">Open scenario</button
@@ -20,17 +20,6 @@
       </div>
     </header>
     <main>
-      <section class="intro">
-        <div>
-          <p class="eyebrow">SINGLE-DECREE PAXOS</p>
-          <h1>A choice that survives<br />another proposal.</h1>
-        </div>
-        <p>
-          Deliver messages in your own order. Inspect promises, quorum overlap,
-          and the difference between a value being chosen and a proposer
-          learning it.
-        </p>
-      </section>
       <div class="toolbar">
         <label
           >Acceptors<select id="count">
@@ -59,6 +48,7 @@
       <section class="consensus">
         <div>
           <p class="eyebrow">OBSERVER'S QUORUM EVIDENCE</p>
+          <div id="quorum-seats" aria-label="Historical quorum witnesses"></div>
           <h2 id="chosen">No value chosen</h2>
           <p id="witness"></p>
         </div>
@@ -150,6 +140,5 @@
         </p>
       </details>
     </main>
-    <footer>Majorities overlap. The history matters.</footer>
   </body>
 </html>

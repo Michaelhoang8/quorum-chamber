@@ -4,6 +4,8 @@ A single-decree Paxos simulator with explicit message delivery, loss, duplicatio
 
 ![Paxos adoption workbench](docs/workbench.png)
 
+The dark protocol console separates historical quorum witnesses from proposer knowledge. Acceptor panels briefly highlight changed state; offline panels use a hatched surface. Reduced-motion preferences disable transitions. The preview shows event seven, before P receives its acceptance acknowledgments.
+
 ## Run
 
 ```sh

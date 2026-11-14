@@ -337,3 +337,220 @@ input[hidden] {
     transition: none;
   }
 }
+
+/* Protocol console */
+:root {
+  background: #101619;
+  color: #d5dfdf;
+  --line: #2b383c;
+  --accent: #80d7ba;
+}
+header {
+  padding: 22px 4%;
+  background: #131d21;
+}
+header a {
+  font:
+    600 23px Arial,
+    sans-serif;
+  letter-spacing: -0.7px;
+}
+header p {
+  color: #91a7ae;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 9px;
+}
+main {
+  max-width: 1440px;
+  padding: 22px 4% 60px;
+}
+h2 {
+  font:
+    500 19px Arial,
+    sans-serif;
+}
+button,
+input,
+select,
+textarea {
+  border-color: #3a5058;
+  border-radius: 3px;
+}
+button {
+  transition:
+    background 0.18s,
+    border-color 0.18s,
+    transform 0.18s;
+}
+button:hover:not(:disabled) {
+  background: #263c43;
+  border-color: #80d7ba;
+  transform: translateY(-1px);
+}
+input,
+textarea,
+select {
+  background: #152126;
+  color: #e0ebea;
+}
+label,
+.hint,
+.section-title p,
+details p,
+#message {
+  color: #9bafb5;
+}
+.toolbar {
+  border-top: 0;
+  padding-top: 0;
+}
+.event {
+  background: #17262c;
+  border-color: #6a9eaf;
+  color: #b9d4dc;
+}
+.consensus {
+  padding: 24px;
+  background: linear-gradient(120deg, #1c3436, #152327 65%);
+  border: 1px solid #355251;
+  gap: 60px;
+  margin-bottom: 30px;
+}
+#chosen {
+  color: #a1edcf;
+  font:
+    42px/1.2 ui-monospace,
+    monospace;
+  overflow-wrap: anywhere;
+  margin: 16px 0;
+}
+#witness,
+#proposers {
+  color: #afc4c6;
+}
+#quorum-seats {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0;
+}
+.seat {
+  display: grid;
+  place-items: center;
+  height: 30px;
+  width: 42px;
+  font:
+    11px ui-monospace,
+    monospace;
+  border: 1px solid #45605e;
+  border-radius: 3px;
+  color: #8ea6a6;
+}
+.seat.witnessed {
+  background: #90dbbb;
+  border-color: #90dbbb;
+  color: #102b24;
+  box-shadow: 0 0 18px #90dbbb14;
+}
+.acceptors {
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.acceptor {
+  background: #172125;
+  border: 0;
+  border-top: 3px solid #4b6570;
+  border-radius: 0;
+  padding: 22px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.acceptor > span {
+  font:
+    9px ui-monospace,
+    monospace;
+  letter-spacing: 1.5px;
+  color: #8ea6b0;
+}
+.acceptor h3 {
+  font:
+    500 20px Arial,
+    sans-serif;
+  margin: 16px 0;
+}
+.acceptor.accepted {
+  border-top-color: #8cdbb9;
+}
+.acceptor.offline {
+  background: repeating-linear-gradient(135deg, #241e22 0 8px, #291f24 8px 9px);
+  border-top-color: #cc8490;
+}
+.acceptor.changed {
+  animation: state-arrival 0.45s ease-out;
+}
+@keyframes state-arrival {
+  from {
+    box-shadow: inset 0 0 0 100px #82dcb922;
+  }
+  to {
+    box-shadow: inset 0 0 0 100px transparent;
+  }
+}
+.workspace {
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 30px;
+}
+.proposal button {
+  color: #10271e;
+}
+.mail {
+  padding: 15px 12px;
+  border-left: 2px solid #52778c;
+  background: #131e23;
+  margin-bottom: 5px;
+}
+.mail code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  color: #b6ced7;
+}
+.mail[data-type="accepted"],
+.mail[data-type="promise"] {
+  border-left-color: #86cbb1;
+}
+.ballot {
+  background: #18282d;
+  color: #b5ccd1;
+}
+@media (max-width: 800px) {
+  header {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  main {
+    padding: 20px 16px 40px;
+  }
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+  .consensus {
+    padding: 18px;
+    gap: 20px;
+  }
+  .acceptors {
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  }
+  .acceptor {
+    padding: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
